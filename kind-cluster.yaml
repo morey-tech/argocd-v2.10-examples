@@ -1,0 +1,12 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: argocd-v2-10-examples
+nodes:
+- role: control-plane
+# 3 nodes to support HA Argo CD install.
+- role: worker
+- role: worker
+- role: worker
+  extraPortMappings:
+    - containerPort: 31443  # NodePort for Argo CD `argocd-server` service (dashboard).
+      hostPort: 8080  # Port on host running the kind cluster.

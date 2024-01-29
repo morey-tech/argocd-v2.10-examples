@@ -1,0 +1,17 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: kustomize-patches-support
+# spec:
+#   destination:
+#     namespace: argocd
+#     name: in-cluster
+#   project: default
+#   source:
+#     path: kustomize-patches-support/
+#     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
+#     targetRevision: main
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
