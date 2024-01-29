@@ -43,8 +43,13 @@ Server-Side Apply requests to Kube API are only triggered when:
 
 - https://github.com/argoproj/argo-cd/pull/13663
 - https://github.com/leoluz
-- This will also address the current limitation with admission controllers as mutating webhooks are only executed in the cluster. Server-Side diff will be a huge improvement for working with kyverno mutating resources managed by Argo CD
 
+#### Mutating Webhooks (Kyverno)
+Server-Side diff will address the limitation where admission controllers with mutating webhooks are only executed in the cluster, leading to a diff between the desired state (before the mutation) and the live state (after mutation). Server-Side diff will be a huge improvement for working with Kyverno policies with mutating rules for resources managed by Argo CD.
+
+
+
+#### ManagedFields on SSA
 - https://github.com/argoproj/argo-cd/issues/11136
     - Solves the issue of when the managedFields of a resource has an outdated API version:
       

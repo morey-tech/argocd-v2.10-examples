@@ -1,0 +1,29 @@
+# This policy sets the imagePullPolicy to Always if the image tag is latest.
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: set-image-pull-policy
+spec:
+  rules:
+    - name: set-image-pull-policy
+      match:
+        any:
+        - resources:
+            kinds:
+            - Deployment
+            namespaceSelector:
+              matchExpressions:
+                - key: type 
+                  operator: In
+                  values: 
+                  - server-side-diff
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              spec:
+                containers:
+                  # match images which end with :latest
+                  - (image): "*:latest"
+                    # set the imagePullPolicy to "Always"
+                    imagePullPolicy: "Always"
