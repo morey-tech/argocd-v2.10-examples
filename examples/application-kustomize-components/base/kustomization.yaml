@@ -8,5 +8,6 @@ configMapGenerator:
   - main.conf=| color=cornflower_blue log_level=info
   name: conf
 
+## Disabled in favour of component added in the Argo CD Application.
 # components:
-# - ../components/external_db
+# - ../component
