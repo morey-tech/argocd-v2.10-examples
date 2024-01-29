@@ -1,5 +1,7 @@
 # Argo CD 2.10 Examples
 ## Server-Side Diff
+Implemented in [#13663](https://github.com/argoproj/argo-cd/pull/13663) by [leoluz](https://github.com/leoluz), closing [#11574](https://github.com/argoproj/argo-cd/issues/11574).
+
 > Argo CD main diff strategy uses a 3-way comparison between live, desired and last-applied-configuration states. However, with the introduction of Server-Side Apply (SSA) as a new sync option in version 2.5, we implemented a new diff logic based on the kubernetes library called “structured-merge-diff”. Since then, we learned from the community about the different limitations with our new approach.
 > 
 > To address these issues, we’re introducing a new diff option that performs a SSA in dry-run mode to determine the predicted live state. By caching the SSA response, we can reduce the load on the Kubernetes API and reduce inconsistencies with CRD schema updates. Comparing the SSA response with the live state will give us a more accurate and efficient assessment of resource sync.
@@ -19,8 +21,6 @@ https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 > Server-Side Diff does not include changes made by mutation webhooks by default.
 
 https://argo-cd.readthedocs.io/en/latest/user-guide/diff-strategies/#server-side-diff
-
-Implemented in [#13663](https://github.com/argoproj/argo-cd/pull/13663) by [leoluz](https://github.com/leoluz).
 
 ### Mutating Webhooks (Kyverno)
 Server-Side diff will address the limitation where admission controllers with mutating webhooks are only executed in the cluster, leading to a diff between the desired state (before the mutation) and the live state (after mutation). Server-Side diff will be a huge improvement for working with Kyverno policies with mutating rules for resources managed by Argo CD.
