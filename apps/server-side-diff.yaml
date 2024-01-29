@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: server-side-diff
+  annotations:
+    # Enable Server-Side Diff.
+    # Server-Side Diff does not include changes made by mutation webhooks by default.
+    argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
+spec:
+  destination:
+    namespace: argocd
+    name: in-cluster
+  project: default
+  source:
+    path: server-side-diff/
+    repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

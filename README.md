@@ -33,6 +33,14 @@ https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 > 
 > One additional benefit of this new feature is that it addresses the current limitations with admission controllers, where mutation and validation webhooks are only executed in the cluster. With this new feature, admission controllers will be executed as part of the diffing stage.
 
+Diff strategy to invoke a Server-Side Apply in dryrun mode in order to generate the predicted live state.
+
+Server-Side Apply requests to Kube API are only triggered when:
+
+- An Application refresh or hard-refresh is requested.
+- There is a new revision in the repo which the Argo CD Application is targeting.
+- The Argo CD Application spec changed.
+
 - https://github.com/argoproj/argo-cd/pull/13663
 - https://github.com/leoluz
 - This will also address the current limitation with admission controllers as mutating webhooks are only executed in the cluster. Server-Side diff will be a huge improvement for working with kyverno mutating resources managed by Argo CD
