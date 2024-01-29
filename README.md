@@ -6,13 +6,13 @@
 https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 
 In order of my favourites:
-- [ApplicationSet Template Patch](./examples/applicationSet-template-patch/)
-- [Server-Side Diff](./examples/server-side-diff/)
-- [PostDelete Hook Support](./examples/postdelete-hook/)
-- [Application Controller Sync Jitter](./examples/application-controller-sync-jitter/)
-- [Kustomize Components Support](./examples/application-kustomize-components/)
-- [Apps in Any Namespace & Notifications](./examples/notifications-in-any-namespace/)
-- [Status Panel Extensions](./examples/status-panel-extensions/)
+### [ApplicationSet Template Patch](./examples/applicationSet-template-patch/)
+### [Server-Side Diff](./examples/server-side-diff/)
+### [PostDelete Hook Support](./examples/postdelete-hook/)
+### [Application Controller Sync Jitter](./examples/application-controller-sync-jitter/)
+### [Kustomize Components Support](./examples/application-kustomize-components/)
+### [Apps in Any Namespace & Notifications](./examples/notifications-in-any-namespace/)
+### [Status Panel Extensions](./examples/status-panel-extensions/)
 
 ## Try it out!
 ### Bootstrapping Argo CD
