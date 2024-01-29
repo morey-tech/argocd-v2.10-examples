@@ -24,6 +24,8 @@ kubectl apply -f apps.yaml
 
 This example includes a `devcontainer` configuration, allowing you to automatically create an environment for testing using the VSCode Dev Containers extension or GitHub Codespaces.
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/morey-tech/argocd-v2.10-examples)
+
 ### Accessing the UI
 Navigate to [https://localhost:8080/](https://localhost:8080/) on the machine with the `kind` cluster running.
 
