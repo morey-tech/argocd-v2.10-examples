@@ -8,7 +8,7 @@ metadata:
     # argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
 spec:
   destination:
-    namespace: argocd
+    namespace: server-side-diff
     name: in-cluster
   project: default
   source:
@@ -20,5 +20,6 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+    - CreateNamespace=true
     # Enable Server-Side Apply.
     - ServerSideApply=true
