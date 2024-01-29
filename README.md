@@ -23,8 +23,9 @@ kind delete cluster --name argocd-v2-10-examples
 ```
 
 ## Examples
+> Over 52 new features, 75 bug fixes, and 44 documentation updates with a total of 230 contributors!
+
 https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
-> over 52 new features, 75 bug fixes, and 44 documentation updates with a total of 230 contributors!
 
 ### Server-Side Diff
 > Argo CD main diff strategy uses a 3-way comparison between live, desired and last-applied-configuration states. However, with the introduction of Server-Side Apply (SSA) as a new sync option in version 2.5, we implemented a new diff logic based on the kubernetes library called “structured-merge-diff”. Since then, we learned from the community about the different limitations with our new approach.
@@ -33,16 +34,21 @@ https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 > 
 > One additional benefit of this new feature is that it addresses the current limitations with admission controllers, where mutation and validation webhooks are only executed in the cluster. With this new feature, admission controllers will be executed as part of the diffing stage.
 
-Diff strategy to invoke a Server-Side Apply in dryrun mode in order to generate the predicted live state.
+https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 
-Server-Side Apply requests to Kube API are only triggered when:
+> Diff strategy to invoke a Server-Side Apply in dryrun mode in order to generate the predicted live state.
+> 
+> Server-Side Apply requests to Kube API are only triggered when:
+> 
+> - An Application refresh or hard-refresh is requested.
+> - There is a new revision in the repo which the Argo CD Application is targeting.
+> - The Argo CD Application spec changed.
+>
+> Server-Side Diff does not include changes made by mutation webhooks by default.
 
-- An Application refresh or hard-refresh is requested.
-- There is a new revision in the repo which the Argo CD Application is targeting.
-- The Argo CD Application spec changed.
+https://argo-cd.readthedocs.io/en/latest/user-guide/diff-strategies/#server-side-diff
 
-- https://github.com/argoproj/argo-cd/pull/13663
-- https://github.com/leoluz
+Implemented in [#13663](https://github.com/argoproj/argo-cd/pull/13663) by [leoluz](https://github.com/leoluz).
 
 #### Mutating Webhooks (Kyverno)
 Server-Side diff will address the limitation where admission controllers with mutating webhooks are only executed in the cluster, leading to a diff between the desired state (before the mutation) and the live state (after mutation). Server-Side diff will be a huge improvement for working with Kyverno policies with mutating rules for resources managed by Argo CD.
@@ -94,60 +100,66 @@ metadata:
 The Application will use take into account the result from the mutating webhook for the Kyverno policy.
 
 #### ManagedFields on SSA
-- https://github.com/argoproj/argo-cd/issues/11136
-    - Solves the issue of when the managedFields of a resource has an outdated API version:
-      
-      ```
-      metadata:
-        managedFields:
-            - apiVersion: networking.k8s.io/v1beta1
-            fieldsType: FieldsV1
-            fieldsV1:
-                f:metadata:
-                f:annotations:
-                    .: {}
-                    f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
-                    f:alb.ingress.kubernetes.io/certificate-arn: {}
-                    f:alb.ingress.kubernetes.io/listen-ports: {}
-                    f:alb.ingress.kubernetes.io/scheme: {}
-                    f:alb.ingress.kubernetes.io/ssl-policy: {}
-                    f:alb.ingress.kubernetes.io/target-type: {}
-                f:labels:
-                    .: {}
-                    f:app.kubernetes.io/instance: {}
-            manager: kubectl
-            operation: Update
-            time: "2021-05-28T16:20:40Z"
-      ```
+Solves the issue of when the `managedFields` of a resource has an outdated API version (e.g. `networking.k8s.io/v1beta1`):
 
-      Compared to the newer version on the resource that is being applied:
-      ```
-      metadata:
-        managedFields:
-            - apiVersion: networking.k8s.io/v1
-            fieldsType: FieldsV1
-            fieldsV1:
-                f:metadata:
-                f:annotations:
-                    .: {}
-                    f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
-                    f:alb.ingress.kubernetes.io/certificate-arn: {}
-                    f:alb.ingress.kubernetes.io/group.name: {}
-                    f:alb.ingress.kubernetes.io/listen-ports: {}
-                    f:alb.ingress.kubernetes.io/scheme: {}
-                    f:alb.ingress.kubernetes.io/ssl-policy: {}
-                    f:alb.ingress.kubernetes.io/target-type: {}
-                f:labels:
-                    .: {}
-                    f:app.kubernetes.io/instance: {}
-                f:spec:
-                f:ingressClassName: {}
-                f:rules: {}
-            manager: kubectl-client-side-apply
-            operation: Update
-      ```
+```yaml
+metadata:
+managedFields:
+    - apiVersion: networking.k8s.io/v1beta1
+    fieldsType: FieldsV1
+    fieldsV1:
+        f:metadata:
+        f:annotations:
+            .: {}
+            f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
+            f:alb.ingress.kubernetes.io/certificate-arn: {}
+            f:alb.ingress.kubernetes.io/listen-ports: {}
+            f:alb.ingress.kubernetes.io/scheme: {}
+            f:alb.ingress.kubernetes.io/ssl-policy: {}
+            f:alb.ingress.kubernetes.io/target-type: {}
+        f:labels:
+            .: {}
+            f:app.kubernetes.io/instance: {}
+    manager: kubectl
+    operation: Update
+    time: "2021-05-28T16:20:40Z"
+```
 
-      Server-Side Diff resolves this by using the result from kube API server, instead of the managed fields on the resource.
+Compared to the newer version on the resource that is being applied (e.g. `networking.k8s.io/v1`):
+```yaml
+metadata:
+managedFields:
+    - apiVersion: networking.k8s.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+        f:metadata:
+        f:annotations:
+            .: {}
+            f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
+            f:alb.ingress.kubernetes.io/certificate-arn: {}
+            f:alb.ingress.kubernetes.io/group.name: {}
+            f:alb.ingress.kubernetes.io/listen-ports: {}
+            f:alb.ingress.kubernetes.io/scheme: {}
+            f:alb.ingress.kubernetes.io/ssl-policy: {}
+            f:alb.ingress.kubernetes.io/target-type: {}
+        f:labels:
+            .: {}
+            f:app.kubernetes.io/instance: {}
+        f:spec:
+        f:ingressClassName: {}
+        f:rules: {}
+    manager: kubectl-client-side-apply
+    operation: Update
+```
+
+Resulting in the error:
+```
+error calculating structured merge diff: error calculating diff: error while running updater.Apply: converting (v1beta1.Ingress) to (v1.Ingress): unknown conversion
+```
+
+Server-side diff resolves this by using the result from kube API server, instead of the managed fields on the resource.
+
+This example is from: [ServerSideApply fails with "conversion failed" #11136](https://github.com/argoproj/argo-cd/issues/11136)
 
 ### ApplicationSet Template Patch
 > With this new feature, you can define templates without being limited to string-only fields. This gives you more granular control over your configurations. For example, you can toggle fields under source to generate applications from different repositories, such as Helm charts from Bitnami and customized packages from private repos.
