@@ -31,7 +31,8 @@ spec:
     path: examples/application-kustomize-components/base
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
     targetRevision: main
-
+    
+    # This!
     kustomize:
       components:
         - ../component
