@@ -11,12 +11,8 @@ spec:
         - resources:
             kinds:
             - Deployment
-            namespaceSelector:
-              matchExpressions:
-                - key: type 
-                  operator: In
-                  values: 
-                  - server-side-diff
+            namespaces:
+            - server-side-diff
       mutate:
         patchStrategicMerge:
           spec:
