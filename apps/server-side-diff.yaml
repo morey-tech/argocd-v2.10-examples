@@ -5,7 +5,7 @@ metadata:
   annotations:
     # Enable Server-Side Diff.
     # Server-Side Diff does not include changes made by mutation webhooks by default.
-    # argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
+    argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
 spec:
   destination:
     namespace: server-side-diff
