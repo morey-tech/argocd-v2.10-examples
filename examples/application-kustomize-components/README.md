@@ -8,6 +8,8 @@ This example is loosely based on [this example](https://github.com/kubernetes-si
 - The kustomize `base/` generates a `Deployment` and a `ConfigMap` for an example application.
 - The kustomize `component/` adds in the database configuration to the `ConfigMap` and patches the `Deployment` to mount in a database secret.
 
+![Diff from kustomize component](../../readme-images/2024-01-29-17-15-56.png)
+
 Normally you'd need to add the following to the `kustomization.yaml` that the Argo CD Application is referencing. For example:
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
