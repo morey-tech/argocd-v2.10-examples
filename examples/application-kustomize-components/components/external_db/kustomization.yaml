@@ -6,6 +6,6 @@ patches:
   target:
     group: apps
     kind: Deployment
-    name: example
+    name: deployment
     version: v1
 - path: configmap.yaml

@@ -13,7 +13,7 @@ spec:
     targetRevision: main
     # kustomize:
     #   components:
-    #     examples/application-kustomize-components/components/external_db
+    #     - ../components/external_db
   syncPolicy:
     automated:
       prune: true
