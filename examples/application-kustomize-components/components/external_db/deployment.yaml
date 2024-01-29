@@ -2,8 +2,8 @@
   path: /spec/template/spec/volumes/0
   value:
     name: dbpass
-    secret:
-      secretName: dbpass
+    configMap:
+      name: conf
 - op: add
   path: /spec/template/spec/containers/0/volumeMounts/0
   value:
