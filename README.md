@@ -1,9 +1,9 @@
 # Argo CD v2.10 Examples
-
-## Examples
 > Over 52 new features, 75 bug fixes, and 44 documentation updates with a total of 230 contributors!
 
 https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
+
+## Examples
 
 In order of my favourites:
 ### [ApplicationSet Template Patch](./examples/applicationSet-template-patch/)
