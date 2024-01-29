@@ -40,5 +40,12 @@
 			"label": "Argo CD Dashboard",
 			"protocol": "https"
 		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"streetsidesoftware.code-spell-checker"
+			]
+		}
 	}
 }
