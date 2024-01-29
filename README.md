@@ -47,7 +47,51 @@ Server-Side Apply requests to Kube API are only triggered when:
 #### Mutating Webhooks (Kyverno)
 Server-Side diff will address the limitation where admission controllers with mutating webhooks are only executed in the cluster, leading to a diff between the desired state (before the mutation) and the live state (after mutation). Server-Side diff will be a huge improvement for working with Kyverno policies with mutating rules for resources managed by Argo CD.
 
+Take for example, a mutation policy that automatically sets the `ImagePullPolicy` on `Deployments` to `Always` where the image is using the `latest` tag.
+```yaml
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: set-image-pull-policy
+spec:
+  rules:
+    - name: set-image-pull-policy
+      match:
+        any:
+        - resources:
+            kinds:
+            - Deployment
+            namespaces:
+            - server-side-diff
+      mutate:
+        patchStrategicMerge:
+          spec:
+            template:
+              spec:
+                containers:
+                  # match images which end with :latest
+                  - (image): "*:latest"
+                    # set the imagePullPolicy to "Always"
+                    imagePullPolicy: "Always"
+```
 
+Without using server-side diff, the Application will be perpetually out-of-sync if the desired state does not use `ImagePullPolicy: Always`.
+
+![Application with out-of-sync Deployment](./readme-images/2024-01-29-15-05-50.png)
+![Diff showing mutation](./readme-images/2024-01-29-15-05-57.png)
+
+However, with server-side diff enabled on the Application using the `compare-options` annotation:
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    # Enable Server-Side Diff.
+    # Server-Side Diff does not include changes made by mutation webhooks by default.
+    argocd.argoproj.io/compare-options: ServerSideDiff=true,IncludeMutationWebhook=true
+```
+
+The Application will use take into account the result from the mutating webhook for the Kyverno policy.
 
 #### ManagedFields on SSA
 - https://github.com/argoproj/argo-cd/issues/11136
