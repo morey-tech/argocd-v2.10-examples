@@ -1,13 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: example
+  name: deployment
+  labels:
+    app: nginx
 spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
   template:
+    metadata:
+      labels:
+        app: nginx
     spec:
       containers:
-      - name: example
-        image: example:1.0
+      - name: nginx
+        image: nginx:latest
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: 80
         volumeMounts:
         - name: conf
           mountPath: /etc/config
