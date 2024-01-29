@@ -45,6 +45,61 @@ Server-Side Apply requests to Kube API are only triggered when:
 - https://github.com/leoluz
 - This will also address the current limitation with admission controllers as mutating webhooks are only executed in the cluster. Server-Side diff will be a huge improvement for working with kyverno mutating resources managed by Argo CD
 
+- https://github.com/argoproj/argo-cd/issues/11136
+    - Solves the issue of when the managedFields of a resource has an outdated API version:
+      
+      ```
+      metadata:
+        managedFields:
+            - apiVersion: networking.k8s.io/v1beta1
+            fieldsType: FieldsV1
+            fieldsV1:
+                f:metadata:
+                f:annotations:
+                    .: {}
+                    f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
+                    f:alb.ingress.kubernetes.io/certificate-arn: {}
+                    f:alb.ingress.kubernetes.io/listen-ports: {}
+                    f:alb.ingress.kubernetes.io/scheme: {}
+                    f:alb.ingress.kubernetes.io/ssl-policy: {}
+                    f:alb.ingress.kubernetes.io/target-type: {}
+                f:labels:
+                    .: {}
+                    f:app.kubernetes.io/instance: {}
+            manager: kubectl
+            operation: Update
+            time: "2021-05-28T16:20:40Z"
+      ```
+
+      Compared to the newer version on the resource that is being applied:
+      ```
+      metadata:
+        managedFields:
+            - apiVersion: networking.k8s.io/v1
+            fieldsType: FieldsV1
+            fieldsV1:
+                f:metadata:
+                f:annotations:
+                    .: {}
+                    f:alb.ingress.kubernetes.io/actions.ssl-redirect: {}
+                    f:alb.ingress.kubernetes.io/certificate-arn: {}
+                    f:alb.ingress.kubernetes.io/group.name: {}
+                    f:alb.ingress.kubernetes.io/listen-ports: {}
+                    f:alb.ingress.kubernetes.io/scheme: {}
+                    f:alb.ingress.kubernetes.io/ssl-policy: {}
+                    f:alb.ingress.kubernetes.io/target-type: {}
+                f:labels:
+                    .: {}
+                    f:app.kubernetes.io/instance: {}
+                f:spec:
+                f:ingressClassName: {}
+                f:rules: {}
+            manager: kubectl-client-side-apply
+            operation: Update
+      ```
+
+      Server-Side Diff resolves this by using the result from kube API server, instead of the managed fields on the resource.
+
 ### ApplicationSet Template Patch
 > With this new feature, you can define templates without being limited to string-only fields. This gives you more granular control over your configurations. For example, you can toggle fields under source to generate applications from different repositories, such as Helm charts from Bitnami and customized packages from private repos.
 > 
