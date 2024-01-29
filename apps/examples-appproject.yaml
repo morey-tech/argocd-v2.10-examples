@@ -1,0 +1,11 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: examples
+spec:
+  destinations:
+  - name: in-cluster
+    namespace: '*'
+    server: '*'
+  sourceRepos:
+  - https://github.com/morey-tech/argocd-v2.10-examples.git

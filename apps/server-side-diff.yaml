@@ -10,7 +10,7 @@ spec:
   destination:
     namespace: server-side-diff
     name: in-cluster
-  project: default
+  project: examples
   source:
     path: examples/server-side-diff/
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git

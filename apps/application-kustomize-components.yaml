@@ -6,7 +6,7 @@ spec:
   destination:
     namespace: application-kustomize-components
     name: in-cluster
-  project: default
+  project: examples
   source:
     path: examples/application-kustomize-components/base
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
