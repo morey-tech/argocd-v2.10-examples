@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: application-kustomize-components
+spec:
+  destination:
+    namespace: application-kustomize-components
+    name: in-cluster
+  project: default
+  source:
+    path: examples/application-kustomize-components/base
+    repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
+    targetRevision: main
+    # kustomize:
+    #   components:
+    #     examples/application-kustomize-components/components/external_db
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

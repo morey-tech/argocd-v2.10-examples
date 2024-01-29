@@ -1,0 +1,11 @@
+- op: add
+  path: /spec/template/spec/volumes/0
+  value:
+    name: dbpass
+    secret:
+      secretName: dbpass
+- op: add
+  path: /spec/template/spec/containers/0/volumeMounts/0
+  value:
+    mountPath: /var/run/secrets/db/
+    name: dbpass
