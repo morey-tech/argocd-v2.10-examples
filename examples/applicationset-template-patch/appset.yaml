@@ -28,8 +28,9 @@ spec:
       destination:
         name: 'in-cluster'
         namespace: '{{.env}}-guestbook'
-      syncOptions:
-      - CreateNamespace=true
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
   templatePatch: |
     spec:
     {{- if .autoSync }}
