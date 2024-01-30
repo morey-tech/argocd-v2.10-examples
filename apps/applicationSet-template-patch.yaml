@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: applicationSet-template-patch
+  name: applicationset-template-patch
 spec:
   destination:
-    namespace: applicationSet-template-patch
+    namespace: applicationset-template-patch
     name: in-cluster
   project: examples
   source:
-    path: examples/applicationSet-template-patch/base
+    path: examples/applicationset-template-patch/base
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
     targetRevision: main
   syncPolicy:
