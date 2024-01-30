@@ -11,5 +11,4 @@ Implemented in [#14893](https://github.com/argoproj/argo-cd/pull/14893) by [spee
 - https://argo-cd.readthedocs.io/en/latest/operator-manual/applicationset/Template/#template-patch
 
 
-Related issues:
-- [ApplicationSet templatePatch when unused for an Application results in (nearly) empty spec #17040](https://github.com/argoproj/argo-cd/issues/17040)
+When writing a `templatePatch`, you're crafting a patch. So, if the patch includes an empty `spec:`, it will effectively clear out existing fields. See [#17040](https://github.com/argoproj/argo-cd/issues/17040) for an example of this behavior.
