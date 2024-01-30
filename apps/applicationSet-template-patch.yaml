@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: applicationSet-template-patch
+spec:
+  destination:
+    namespace: applicationSet-template-patch
+    name: in-cluster
+  project: examples
+  source:
+    path: examples/applicationSet-template-patch/base
+    repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
