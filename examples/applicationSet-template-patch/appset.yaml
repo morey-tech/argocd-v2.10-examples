@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbooks
+spec:
+  goTemplate: true
+  generators:
+  - list:
+      elements:
+        - env: dev
+          autoSync: true
+          prune: true
+        - env: stg
+          autoSync: true
+          prune: false
+        - env: prd
+          autoSync: false
+          prune: false
+  template:
+    metadata:
+      name: '{{.env}}-guestbook'
+    spec:
+      project: examples
+      source:
+        repoURL: https://github.com/argoproj/argocd-example-apps/tree/master/
+        targetRevision: HEAD
+        path: helm-guestbook
+      destination:
+        name: 'in-cluster'
+        namespace: '{{.env}}-guestbook'
+      syncOptions:
+      - CreateNamespace=true
+  templatePatch: |
+    spec:
+    {{- if .autoSync }}
+      syncPolicy:
+        automated:
+          prune: {{ .prune }}
+    {{- end }}
