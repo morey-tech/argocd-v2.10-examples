@@ -32,10 +32,10 @@ spec:
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
-  # templatePatch: |
-  #   spec:
-  #   {{- if .autoSync }}
-  #     syncPolicy:
-  #       automated:
-  #         prune: {{ .prune }}
-  #   {{- end }}
+  templatePatch: |
+    spec:
+    {{- if .autoSync }}
+      syncPolicy:
+        automated:
+          prune: {{ .prune }}
+    {{- end }}
