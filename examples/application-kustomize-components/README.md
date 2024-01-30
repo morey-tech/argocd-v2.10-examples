@@ -14,7 +14,7 @@ Normally you'd need to add the following to the `kustomization.yaml` that the Ar
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-...
+# ...
 components:
 - ../component
 ```
@@ -26,7 +26,7 @@ kind: Application
 metadata:
   name: application-kustomize-components
 spec:
-  ...
+  # ...
   source:
     path: examples/application-kustomize-components/base
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git

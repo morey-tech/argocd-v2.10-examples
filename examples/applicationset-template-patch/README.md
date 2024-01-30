@@ -18,7 +18,13 @@ metadata:
   name: guestbooks
   namespace: argocd
 spec:
-  ...
+  template:
+    spec:
+      # ...
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+  # ...
   templatePatch: |
     {{- if .autoSync }}
     spec:
