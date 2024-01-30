@@ -10,7 +10,32 @@ Other examples of when `templatePatch` would be useful include:
 - Using Helm and Kustomize in the same ApplicationSet, and you need to include fields specific to these sources (e.g. `helm.valueFiles` or `kustomize.components`).
 - Conditional `ignoreDifferences` when using an ApplicationSet. For example, if an ApplicationSet is deploying cluster services `kyverno` and `crossplane`, but only the `crossplane` Application will need to ignore certain fields.
 
-In this example, the `templatePatch` is used to conditionally enable the automated sync policy and resource pruning.
+In this example, each element in the `list` generator will specify the `env` name, and if `autoSync` or `prune` should be enabled.
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbooks
+  namespace: argocd
+spec:
+  # ...
+  generators:
+  - list:
+      elements:
+        - env: dev
+          autoSync: true
+          prune: true
+        - env: stg
+          autoSync: true
+          prune: false
+        - env: prd
+          autoSync: false
+          prune: false
+```
+
+Here, `dev` and `stg` have the automated sync policy enabled, but `stg` has resource pruning disabled. The `prd` environment, has both `autoSync` and `prune` disabled.
+
+Then, the `templatePatch` is used to conditionally alter the `syncPolicy` to enable the automated syncs and resource pruning.
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
@@ -33,23 +58,6 @@ spec:
           prune: {{ .prune }}
     {{- end }}
 ```
-
-Each element in the `list` generator will specify if `autoSync` or `prune` should be enabled.
-```yaml
-  generators:
-  - list:
-      elements:
-        - env: dev
-          autoSync: true
-          prune: true
-        - env: stg
-          autoSync: true
-          prune: false
-        - env: prd
-          autoSync: false
-          prune: false
-```
-Here, `dev` and `stg` have the automated sync policy enabled, but `stg` has resource pruning disabled. The `prd` environment, has both `autoSync` and `prune` disabled.
 
 **Note**: When writing a `templatePatch`, you're crafting a patch. So, if the patch includes an empty `spec:`, it will effectively clear out existing fields. See [#17040](https://github.com/argoproj/argo-cd/issues/17040) for an example of this behavior.
 
