@@ -6,9 +6,9 @@ Implemented in [#14893](https://github.com/argoproj/argo-cd/pull/14893) by [spee
 > 
 > One of the most common use cases for this feature is toggling auto sync on and off using values from AppSet generators. This is a very common practice when end users are testing changes against a specific environment and they don’t want their changes to be erased if there is a commit to Git.
 
-- ApplicationSet template patch, use helm and kustomize in the same appset.
-- Dynamic ignoreDifferences when using AppSet
-- https://argo-cd.readthedocs.io/en/latest/operator-manual/applicationset/Template/#template-patch
+Other examples of when `templatePatch` would be useful include:
+- Using Helm and Kustomize in the same ApplicationSet, and you need to include fields specific to these sources (e.g. `helm.valueFiles` or `kustomize.components`).
+- Conditional `ignoreDifferences` when using an ApplicationSet. For example, if an ApplicationSet is deploying cluster services `kyverno` and `crossplane`, but only the `crossplane` Application will need to ignore certain fields.
 
 In this example, the `templatePatch` is used to conditionally enable the automated sync policy and resource pruning.
 ```yaml
@@ -46,3 +46,5 @@ Each element in the `list` generator will specify if `autoSync` or `prune` shoul
 Here, `dev` and `stg` have the automated sync policy enabled, but `stg` has resource pruning disabled. The `prd` environment, has both `autoSync` and `prune` disabled.
 
 Note: When writing a `templatePatch`, you're crafting a patch. So, if the patch includes an empty `spec:`, it will effectively clear out existing fields. See [#17040](https://github.com/argoproj/argo-cd/issues/17040) for an example of this behavior.
+
+[Link to the documentation](https://argo-cd.readthedocs.io/en/latest/operator-manual/applicationset/Template/#template-patch).
