@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ns-postdelete-hook
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: ns-postdelete-hook
+    spec:
+      serviceAccountName: 
+      containers:
+        - name: kubectl
+          image: "k8s.gcr.io/hyperkube:v1.12.1"
+          imagePullPolicy: "IfNotPresent"
+          command:
+          - /bin/sh
+          - -c
+          - >
+              kubectl your command here.
+              kubectl delete alertmanager   --all;
+              kubectl delete prometheus     --all;
+              kubectl delete prometheusrule --all;
+              kubectl delete servicemonitor --all;
+              sleep 10;
+              kubectl delete crd alertmanagers.monitoring.coreos.com;
+              kubectl delete crd prometheuses.monitoring.coreos.com;
+              kubectl delete crd prometheusrules.monitoring.coreos.com;
+              kubectl delete crd servicemonitors.monitoring.coreos.com;
+              kubectl delete crd podmonitors.monitoring.coreos.com;
+      restartPolicy: OnFailure

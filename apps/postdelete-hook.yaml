@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postdelete-hook
+spec:
+  destination:
+    namespace: postdelete-hook
+    name: in-cluster
+  project: examples
+  source:
+    path: examples/postdelete-hook
+    repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
