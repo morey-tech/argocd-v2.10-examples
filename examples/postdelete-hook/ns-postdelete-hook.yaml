@@ -10,7 +10,7 @@ spec:
     metadata:
       name: ns-postdelete-hook
     spec:
-      serviceAccountName: 
+      serviceAccountName: postdelete-hook
       containers:
         - name: kubectl
           image: "k8s.gcr.io/hyperkube:v1.12.1"
@@ -19,15 +19,5 @@ spec:
           - /bin/sh
           - -c
           - >
-              kubectl your command here.
-              kubectl delete alertmanager   --all;
-              kubectl delete prometheus     --all;
-              kubectl delete prometheusrule --all;
-              kubectl delete servicemonitor --all;
-              sleep 10;
-              kubectl delete crd alertmanagers.monitoring.coreos.com;
-              kubectl delete crd prometheuses.monitoring.coreos.com;
-              kubectl delete crd prometheusrules.monitoring.coreos.com;
-              kubectl delete crd servicemonitors.monitoring.coreos.com;
-              kubectl delete crd podmonitors.monitoring.coreos.com;
+              kubectl delete ns postdelete-hook
       restartPolicy: OnFailure
