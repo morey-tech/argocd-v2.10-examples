@@ -8,7 +8,7 @@ spec:
     name: in-cluster
   project: examples
   source:
-    path: examples/applicationset-template-patch/base
+    path: examples/applicationset-template-patch
     repoURL: https://github.com/morey-tech/argocd-v2.10-examples.git
     targetRevision: main
   syncPolicy:
