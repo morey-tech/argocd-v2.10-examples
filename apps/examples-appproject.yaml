@@ -3,6 +3,9 @@ kind: AppProject
 metadata:
   name: examples
 spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
   destinations:
   - name: in-cluster
     namespace: '*'
