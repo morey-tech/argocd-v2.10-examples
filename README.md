@@ -1,4 +1,4 @@
-# Argo CD v2.10 Examples
+# Argo CD v2.10
 > Over 52 new features, 75 bug fixes, and 44 documentation updates with a total of 230 contributors!
 
 https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
@@ -6,7 +6,7 @@ https://blog.argoproj.io/argo-cd-v2-10-release-candidate-f69ba7bf9e06
 ## Examples
 
 In order of my favourites:
-### [ApplicationSet Template Patch](./examples/applicationSet-template-patch/)
+### [ApplicationSet Template Patch](./examples/applicationset-template-patch/)
 ### [Server-Side Diff](./examples/server-side-diff/)
 ### [PostDelete Hook Support](./examples/postdelete-hook/)
 ### [Application Controller Sync Jitter](./examples/application-controller-sync-jitter/)
