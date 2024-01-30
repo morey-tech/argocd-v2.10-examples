@@ -23,7 +23,7 @@ spec:
     spec:
       project: examples
       source:
-        repoURL: https://github.com/argoproj/argocd-example-apps/tree/master/
+        repoURL: https://github.com/argoproj/argocd-example-apps
         targetRevision: HEAD
         path: helm-guestbook
       destination:

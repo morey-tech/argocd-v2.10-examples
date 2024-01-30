@@ -12,3 +12,4 @@ spec:
     server: '*'
   sourceRepos:
   - https://github.com/morey-tech/argocd-v2.10-examples.git
+  - https://github.com/argoproj/argocd-example-apps
