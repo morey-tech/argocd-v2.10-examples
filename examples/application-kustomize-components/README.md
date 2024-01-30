@@ -2,9 +2,9 @@
 ## Kustomize Components Support
 Implemented in [#16230](https://github.com/argoproj/argo-cd/pull/16230) by [pasha-codefresh](https://github.com/pasha-codefresh), closing [#15925](https://github.com/argoproj/argo-cd/issues/15925).
 
-> Kustomize components provide a powerful way to modularize and reuse configuration in Kubernetes applications. It would be valuable for ArgoCD to support this feature to enhance its usability.
+Kustomize components encapsulate both resources and patches together. They provide a powerful way to modularize and reuse configuration in Kubernetes applications.
 
-This example is loosely based on [this example](https://github.com/kubernetes-sigs/kustomize/blob/master/examples/components.md).
+This is loosely based on [the kustomize components example](https://github.com/kubernetes-sigs/kustomize/blob/master/examples/components.md).
 - The kustomize `base/` generates a `Deployment` and a `ConfigMap` for an example application.
 - The kustomize `component/` adds in the database configuration to the `ConfigMap` and patches the `Deployment` to mount in a database secret.
 
