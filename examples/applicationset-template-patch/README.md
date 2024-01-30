@@ -9,3 +9,7 @@ Implemented in [#14893](https://github.com/argoproj/argo-cd/pull/14893) by [spee
 - ApplicationSet template patch, use helm and kustomize in the same appset.
 - Dynamic ignoreDifferences when using AppSet
 - https://argo-cd.readthedocs.io/en/latest/operator-manual/applicationset/Template/#template-patch
+
+
+Related issues:
+- [ApplicationSet templatePatch when unused for an Application results in (nearly) empty spec #17040](https://github.com/argoproj/argo-cd/issues/17040)
