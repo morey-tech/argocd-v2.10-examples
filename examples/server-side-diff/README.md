@@ -126,7 +126,7 @@ managedFields:
 
 Resulting in the error:
 ```
-error calculating structured merge diff: error calculating diff: error while running updater.Apply: converting (v1beta1.Ingress) to (v1.Ingress): unknown conversion
+error calculating structured merge diff: error calculating diff: error while running updater.Apply: converting (v1.Ingress) to (v1beta1.Ingress): unknown conversion
 ```
 
 Server-side diff resolves this by using the result from kube API server, instead of the managed fields on the resource.
