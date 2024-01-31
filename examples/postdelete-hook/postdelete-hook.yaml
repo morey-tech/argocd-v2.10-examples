@@ -1,13 +1,19 @@
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
+  name: postdelete-hook
   annotations:
-    argocd.argoproj.io/hook: PostDelete
-  name: hook
+    helm.sh/hook: post-delete
+    helm.sh/hook-delete-policy: hook-succeeded
 spec:
-  containers:
-    - command:
-        - "true"
-      image: quay.io/argoprojlabs/argocd-e2e-container:0.1
-      imagePullPolicy: IfNotPresent
-      name: main
-  restartPolicy: Never
+  template:
+    metadata:
+      name: postdelete-hook
+    spec:
+        containers:
+          - command:
+              - "true"
+            image: quay.io/argoprojlabs/argocd-e2e-container:0.1
+            imagePullPolicy: IfNotPresent
+            name: main
+        restartPolicy: Never
