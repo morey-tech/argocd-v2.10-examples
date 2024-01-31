@@ -1,23 +1,23 @@
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: ns-postdelete-hook
-  annotations:
-    helm.sh/hook: post-delete
-    helm.sh/hook-delete-policy: hook-succeeded
-spec:
-  template:
-    metadata:
-      name: ns-postdelete-hook
-    spec:
-      serviceAccountName: postdelete-hook
-      containers:
-        - name: kubectl
-          image: "k8s.gcr.io/hyperkube:v1.12.1"
-          imagePullPolicy: "IfNotPresent"
-          command:
-          - /bin/sh
-          - -c
-          - >
-              kubectl delete ns postdelete-hook
-      restartPolicy: OnFailure
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: ns-postdelete-hook
+#   annotations:
+#     helm.sh/hook: post-delete
+#     helm.sh/hook-delete-policy: hook-succeeded
+# spec:
+#   template:
+#     metadata:
+#       name: ns-postdelete-hook
+#     spec:
+#       serviceAccountName: postdelete-hook
+#       containers:
+#         - name: kubectl
+#           image: "k8s.gcr.io/hyperkube:v1.12.1"
+#           imagePullPolicy: "IfNotPresent"
+#           command:
+#           - /bin/sh
+#           - -c
+#           - >
+#               kubectl delete ns postdelete-hook
+#       restartPolicy: OnFailure
