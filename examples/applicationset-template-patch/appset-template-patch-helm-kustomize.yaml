@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbooks-helm-kustomize
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+  - list:
+      elements:
+        - name: helm-guestbook
+          helm:
+            valueFiles:
+            - values-production.yaml
+        - name: kustomize-guestbook
+          kustomize: true
+  template:
+    metadata:
+      name: '{{.name}}'
+    spec:
+      project: examples
+      source:
+        repoURL: https://github.com/argoproj/argocd-example-apps
+        targetRevision: HEAD
+        path: {{.name}}
+      destination:
+        name: 'in-cluster'
+        namespace: '{{.name}}'
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+  templatePatch: |
+    {{- if .helm }}
+    spec:
+      source:
+        helm:
+          valueFiles:
+          {{- range $valueFile := .helm.valueFiles }}
+            - {{ $valueFile }}
+          {{- end }}
+    {{- end }}
+    {{- if .kustomize }}
+    spec:
+      source:
+        kustomize:
+          patches:
+            - target:
+                kind: Deployment
+                name: guestbook-ui
+              patch: |-
+                - op: replace
+                  path: /spec/template/spec/containers/0/ports/0/containerPort
+                  value: 443
+    {{- end }}
