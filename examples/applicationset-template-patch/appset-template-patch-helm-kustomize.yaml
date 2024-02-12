@@ -22,7 +22,7 @@ spec:
       source:
         repoURL: https://github.com/argoproj/argocd-example-apps
         targetRevision: HEAD
-        path: {{.name}}
+        path: '{{.name}}'
       destination:
         name: 'in-cluster'
         namespace: '{{.name}}'
